@@ -49,3 +49,33 @@ export const updateBlog = async (req, res, next) => {
     }
     return res.status(200).json({ blog })
 }
+
+// update controller get by id
+export const getById = async (req, res, next) => {
+    const id = req.params.id;
+    let blog;
+    try {
+        blog = await Blog.findById(id);
+    } catch (error) {
+        return console.log(error)
+    }
+    if (!blog) {
+        return res.status(404).json({ message: "No Blogs Found" })
+    }
+    return res.status(200).json({ blog })
+};
+
+// controller for deleting blogs 
+export const deleteBlog = async (req, res, next) => {
+    const id = req.params.id;
+    let blog;
+    try {
+        blog = await Blog.findByIdAndRemove(id)
+    } catch (error) {
+        return console.log(error)
+    }
+    if (!blog) {
+        return res.status(404).json({ message: "could not deleted the blog" })
+    }
+    return res.status(200).json({ message: "Deleted Successfully" })
+}
